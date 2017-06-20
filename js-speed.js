@@ -96,6 +96,10 @@
                     // chage strings to booleans
                     for (var k in query) {
                          if ( query.hasOwnProperty(k) ) {
+                             // prevent remove non-boolean values
+                             if ( query[k] !== "true" && query[k] !== "false" ) {
+                                 delete query[k];
+                             }
                              if ( query[k] === "true" ) {
                                  query[k] = true;
                              }

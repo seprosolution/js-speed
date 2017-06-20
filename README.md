@@ -3,6 +3,8 @@
 This is a minimal source to estimate **bandwidth** using [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) and (or) [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 
 
+See **Considerations** section about
+
 ## Set:
 
 Add before `</body>` tag e.g:
@@ -22,15 +24,27 @@ Add before `</body>` tag e.g:
     <script src="./js-speed?promise=false"></script>
     <!--
         This add JsSpeed to window.navigator scope
-            - access: window.navigator.JsSpeed // output e.g: 472.68 kbps
+            - access: window.navigator.JsSpeed // output e.g: 472.68 kb/s
     -->
     
     <script src="./js-speed?promise=false&strict=false"></script>
     <!--
         This add JsSpeed to global scope (see note)
-            - access: JsSpeed // output e.g: 472.68 kbps
+            - access: JsSpeed // output e.g: 472.68 kb/s
     -->
 ```
+
+Querystring `key: values` represent {object} with `boolean` ( promise | strict | cached | log)
+
+
+**Options note:**
+
+If you use a custom **uri**: note **CORS Policy** [or throw error]
+
+If you use a custom **timeout**: don't recomend us values beetwen 1 and 1000 (milliseconds) [or throw error timeout]
+
+If you use a custom **cached**: next request from browser cache [inconsistent metric result]
+
 
 >
 > NOTE: **ONLY USE IF NOT** "use strict" mode
@@ -54,25 +68,32 @@ Add before `</body>` tag e.g:
     // with constructor
     var speed = new JsSpeed(/*options*/);
     // Promise
-    speed.test(/*options*/)
+    speed.test(/*rewrite constructor options*/)
     .then(res=>{
-        console.log(res); // output e.g: 472.68 Kbps
+        console.log(res); // output e.g: 472.68 Kb/s
     })
     .catch(e=>{
         console.log(e); // output e.g: timeout end|request error(s)
     });
     
     // with window.navigator
-    console.log(window.navigator.JsSpeed); // output e.g: 472.68 Kbps
+    console.log(window.navigator.JsSpeed); // output e.g: 472.68 Kb/s
     
     // or with global
-    console.log(JsSpeed); // output e.g: 472.68 Kbps
+    console.log(JsSpeed); // output e.g: 472.68 Kb/s
+    
+    // white jQuery (Promise)
+    $.JsSpeed(/*options*/)
+    .then(function(res){
+        console.log(res); // output e.g: 472.68 Kb/s
+    })
+    catch(...)
 ```
 
 
 ## To Do
 
-- [ ] add prettybytes function to more than of 1000.00 kbps (MB) e.g: 1.2 Mbps
+- [X] add prettybytes function to more than of 1000.00 kb/s (MB) e.g: 1.2 Mb/s
 
 
 ## Contribute
@@ -84,7 +105,30 @@ Found a mistake? Got a question or a suggestion? [open new issue](https://github
 **All collaboration is welcome!**
 
 
+## Considerations:
 
+This source code does not allow actual capture of the connection bandwidth, it only estimates based on the initial request time file size and response time.
+Use caution while observing the following questions:
+
+* latency in the connection between servers
+* timming response between servers
+* issues not considered in this development
+
+
+## Attribution:
+
+Default resource link **"uri"** (because CORS and cause: Open Source)
+
+>
+> Logo Open Source Initiative (SVG)
+>
+> Creative Commons Attribution 2.5 - 2014 Open Source Initiative official SVG
+>
+> By Open Source Initiative official SVG (Simon Phipps, former president of OSI)
+> [CC BY 2.5 (http://creativecommons.org/licenses/by/2.5)], via Wikimedia Commons
+>
+
+         
 ## License
 
 (The MIT License)
